@@ -16,10 +16,13 @@ services:
   fastapi-project:
     container_name: FastAPIProject
     build: ./fastapi_project
+    command: /start-reload.sh
     volumes:
-      - ./fastapi_project/loader_file/:/loader_file 
+      - ./fastapi_project/file_loader:/app/file_loader
     ports:
       - 8001:80
+    env_file:
+      - envs/dev_fastapi.env
 
   db:
     container_name: Postgres

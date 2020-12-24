@@ -2,7 +2,7 @@ FROM python:3.8-slim
 
 LABEL maintainer="juancarvajaling@gmail.com"
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/near_postcode
 
 # This prevents Python from writing out pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -17,4 +17,4 @@ RUN pip install --upgrade pip \
     && apt -y install netcat
 
 COPY entrypoint.sh /
-COPY near_postcode/ .
+COPY near_postcode ./app/near_postcode

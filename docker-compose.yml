@@ -6,7 +6,7 @@ services:
     build: ./django_project
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./django_project/near_postcode/:/usr/src/app/
+      - ./django_project/near_postcode:/usr/src/app/near_postcode
     ports:
       - 8000:8000
     env_file:

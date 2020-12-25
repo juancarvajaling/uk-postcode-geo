@@ -25,6 +25,7 @@ async def process_coordinates_file(file_name):
     issues = 0
     column_names_issue = False
     errors = []
+    total_max_lenght = {}
     with open(file_name, 'r') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         row_count = 1
@@ -60,12 +61,21 @@ def process_row(row, row_count):
             error = {'type': 1, 'row': row_count}
 
         return error
+    try:
+        res_get = requests.get(
+            POSTCODE_URL, params={'lat': row[0], 'lon': row[1]}
+        )
+    except Exception as error:
+        print(f'Request to postcode.io failed: {error}')
 
-    res_get = requests.get(POSTCODE_URL, params={'lat': row[0], 'lon': row[1]})
-    res_get = res_get.json()
-    if res_get['status'] != 200:
+    if res_get.status_code == 500:
+        print('internal server error:', row)
+        return error
+
+    if res_get.status_code == 400:
         return {'type': 2, 'row': row_count}
 
+    res_get = res_get.json()
     if res_get['result'] is None:
         return {'type': 4, 'row': row_count}
 
@@ -75,6 +85,10 @@ def process_row(row, row_count):
         res_post = requests.post(
             f'{DJANGO_PROJECT_URL}/api/postcode/postcodes/', data=result
         )
+        if res_post.status_code not in [200, 201]:
+            print('Django error:', result)
+            continue
+
         res_post = res_post.json()
         postcode_list.append(res_post['id'])
 

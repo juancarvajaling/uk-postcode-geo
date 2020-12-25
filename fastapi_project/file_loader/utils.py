@@ -66,6 +66,9 @@ def process_row(row, row_count):
     if res_get['status'] != 200:
         return {'type': 2, 'row': row_count}
 
+    if res_get['result'] is None:
+        return {'type': 4, 'row': row_count}
+
     postcode_list = []
     for result in res_get['result']:
         result['code'] = result['postcode']
@@ -98,13 +101,14 @@ def set_grouped_errors(errors):
     types_error = {
         1: {'message': 'Column names are not valid', 'rows': []},
         2: {'message': 'Rows with wrong coordinates info', 'rows': []},
-        3: {'message': 'File without content to be proccessed', 'rows': []}
+        3: {'message': 'File without content to be proccessed', 'rows': []},
+        4: {'message': 'No associated postcode', 'rows': []}
     }
     for error in errors:
         types_error[error['type']]['rows'].append(error['row'])
 
     grouped_errors = []
-    for i in range(1, 4):
+    for i in range(1, len(types_error)+1):
         if types_error[i]['rows']:
             grouped_errors.append(types_error[i])
 

@@ -98,6 +98,26 @@ def file_with_wrong_rows():
 
 
 @pytest.fixture(scope='module')
+def file_no_postcodes():
+    file_name = 'postcode_geo_test.csv'
+    rows = [
+        ['lat', 'lon'],
+        [52.923454, -1.474217],
+        [53.457321, -2.262773],
+        [50.871446, -0.729985]
+    ]
+    with open(file_name, 'w') as csv_file:
+        writer = csv.writer(csv_file, delimiter=',')
+        writer.writerows(rows)
+
+    expected_response = [
+        {'message': 'No associated postcode', 'rows': [2, 3, 4]}
+    ]
+
+    return file_name, expected_response
+
+
+@pytest.fixture(scope='module')
 def file_multiple_errors():
     file_name = 'postcode_geo_test.csv'
     rows = [

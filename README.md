@@ -12,9 +12,9 @@ Como requisitos se debe tener instalado [Docker](https://docs.docker.com/engine/
 El proyecto no está configurado para desplegarse en producción, asi que sus funcionalidades pueden probarse localmente.
 
 ## Uso del Endpoint
-Podrá utilizar la herramienta que desee para consumir el endpoint, pero el proyecto esta configurado con [Swagger](https://swagger.io/), que facilita el desarrollo de APIs. En un navegador ingresar a la dirección `localhost:8001/docs`. Desde la interfaz que se muestra podrá fácilmente cargar un archivo al proyecto y ver el resultado de la operación.
+Podrá utilizar la herramienta que desee para consumir el endpoint, pero el proyecto esta configurado con [Swagger](https://swagger.io/), que facilita el desarrollo de APIs. En un navegador ingresar a la dirección `localhost:8001/docs`. Desde la interfaz que se muestra podrá fácilmente cargar un archivo al proyecto y ver el resultado de la operación. El contenido de la respuesta será un objeto JSON indicando que el archivo fue procesado sin problemas o que no pudo ser procesado o que fue procesado pero tiene algunos problemas, caso en el que se indica los tipos de problemas y las filas donde se encontraron.
 
-Cabe recordar que el archivo debe ser un CSV separado por comas. En este archivo solo las 2 primeras columnas deben ser usadas. El nombre de la primera columna debe ser `lat` y debe contener información de las latitudes. El nombre de la segunda columna debe ser `lon` y debe contener información de las longitudes.
+El archivo debe ser un CSV separado por comas. En este archivo solo las 2 primeras columnas deben ser usadas. El nombre de la primera columna debe ser `lat` y debe contener información de las latitudes. El nombre de la segunda columna debe ser `lon` y debe contener información de las longitudes.
 
 ## Arquitectura del Proyecto
 
